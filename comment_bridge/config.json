@@ -1,0 +1,11 @@
+{
+    "comments_file_path": "K:\\obs_comments.txt",
+    "twitch_channel": "",
+    "twitch_token": "",
+    "twitch_nickname": "",
+    "youtube_mode": "scraper",
+    "youtube_video_id": "",
+    "youtube_token": "",
+    "kick_channel": "",
+    "kick_chatroom_id": ""
+}

@@ -1,0 +1,37 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+.venv/
+venv/
+ENV/
+
+# C++ Compilation & CMake outputs
+build/
+output/
+x64/
+Release/
+Debug/
+CMakeFiles/
+CMakeCache.txt
+*.dir/
+*.sln
+*.vcxproj
+*.filters
+*.user
+/OBS_DM_Build/
+
+# Logs and State files
+*.log
+logs/
+build_log.txt
+cmake_log.txt
+obs_state.txt
+
+# Token Database ( DPAPI Encrypted User Data )
+/danmaku-bridge-tray/data/token_store.db
+
+# Distribution folders
+/danmaku-bridge-release/
+/dist/

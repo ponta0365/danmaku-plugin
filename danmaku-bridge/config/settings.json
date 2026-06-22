@@ -1,0 +1,31 @@
+{
+    "output": {
+        "mode": "text",
+        "text_path": "K:\\obs_comments.txt",
+        "jsonl_path": "K:\\obs_comments.jsonl",
+        "include_user_name": false,
+        "include_platform": false,
+        "max_text_length": 80
+    },
+    "providers": {
+        "twitch": {
+            "enabled": true,
+            "broadcaster_user_id": "",
+            "broadcaster_user_name": ""
+        },
+        "youtube": {
+            "enabled": true,
+            "broadcaster_user_id": "",
+            "broadcaster_user_name": ""
+        }
+    },
+    "moderation": {
+        "ng_words": [],
+        "ng_users": []
+    },
+    "obs_link": {
+        "enabled": false,
+        "port": 4455,
+        "password": "123456"
+    }
+}

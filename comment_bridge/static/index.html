@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBS Danmaku Bridge Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo-section">
+            <h1>OBS Comment Bridge</h1>
+            <p>OAuth Common Foundation + Twitch, YouTube, & Kick Chat Aggregator</p>
+        </div>
+        <div class="status-badge">
+            <div id="bridge-status-dot" class="status-dot"></div>
+            <span id="bridge-status-text">DISCONNECTED</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="left-panel">
+            <!-- 1. System Settings -->
+            <div class="card">
+                <div class="card-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.1a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                    System Configuration
+                </div>
+                <div class="form-group">
+                    <label for="comments_file_path">Target Output File Path (RAMDisk Recommended)</label>
+                    <div class="input-container">
+                        <input type="text" id="comments_file_path" placeholder="e.g. K:\obs_comments.txt">
+                    </div>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                        Keep intermediate files in system memory (e.g. K: RAMDisk) to avoid wearing out your local storage (SSD).
+                    </p>
+                </div>
+            </div>
+
+            <!-- 2. Platforms Configuration -->
+            <div class="card">
+                <div class="card-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Platform Settings
+                </div>
+                <div class="platform-grid">
+                    <!-- Twitch Platform -->
+                    <div class="platform-row twitch">
+                        <div class="platform-badge">TWITCH</div>
+                        <div class="platform-inputs">
+                            <div class="sub-row">
+                                <input type="text" id="twitch_channel" placeholder="Channel Name to Fetch">
+                                <button id="btn-twitch-login" class="btn btn-twitch" style="width: auto; flex-shrink: 0;">
+                                    OAuth Login
+                                </button>
+                            </div>
+                            <input type="password" id="twitch_token" placeholder="OAuth Token (auto-filled, or enter manually)">
+                            <input type="text" id="twitch_nickname" placeholder="Connected Username" readonly style="opacity: 0.7; font-size: 0.85rem;">
+                        </div>
+                        <div>
+                            <button id="btn-toggle-twitch" class="btn-toggle-connect">CONNECT</button>
+                        </div>
+                    </div>
+
+                    <!-- YouTube Platform -->
+                    <div class="platform-row youtube">
+                        <div class="platform-badge">YOUTUBE</div>
+                        <div class="platform-inputs">
+                            <div class="sub-row">
+                                <select id="youtube_mode" style="width: 120px;">
+                                    <option value="scraper">Scraper</option>
+                                    <option value="oauth">OAuth API</option>
+                                </select>
+                                <input type="text" id="youtube_video_id" placeholder="Video ID / Live URL">
+                            </div>
+                            <div id="youtube-oauth-section" style="display: none;">
+                                <input type="password" id="youtube_token" placeholder="OAuth API Access Token">
+                            </div>
+                            <p id="youtube-scraper-tip" style="font-size: 0.75rem; color: var(--text-secondary); margin-left: 2px;">
+                                * Scraper Mode does not require OAuth or API Keys. Just paste the live URL!
+                            </p>
+                        </div>
+                        <div>
+                            <button id="btn-toggle-youtube" class="btn-toggle-connect">CONNECT</button>
+                        </div>
+                    </div>
+
+                    <!-- Kick Platform -->
+                    <div class="platform-row kick">
+                        <div class="platform-badge">KICK</div>
+                        <div class="platform-inputs">
+                            <input type="text" id="kick_channel" placeholder="Kick Channel Name (e.g. xqc)">
+                            <input type="text" id="kick_chatroom_id" placeholder="Chatroom ID (Optional, auto-fetched)">
+                        </div>
+                        <div>
+                            <button id="btn-toggle-kick" class="btn-toggle-connect">CONNECT</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Terminal Monitor -->
+        <div class="right-panel">
+            <div class="card monitor-card">
+                <div class="monitor-header">
+                    <h2>Live Comment Stream</h2>
+                    <div class="monitor-stats">
+                        <span>File Size: <span id="stat-file-size">0.00 KB</span></span>
+                        <span>WS Clients: <span id="stat-ws-clients">0</span></span>
+                    </div>
+                </div>
+                <div id="console-monitor" class="console">
+                    <div class="console-placeholder">Waiting for active connections to capture comments...</div>
+                </div>
+                <div class="action-row">
+                    <button id="btn-start-bridge" class="btn btn-start">START ACQUISITION</button>
+                    <button id="btn-stop-bridge" class="btn btn-stop">STOP ACQUISITION</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        OBS Danmaku Bridge Tool • Local system memory integration for Twitch, YouTube & Kick chat.
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

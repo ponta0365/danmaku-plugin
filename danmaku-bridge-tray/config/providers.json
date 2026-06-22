@@ -1,0 +1,26 @@
+{
+    "twitch": {
+        "display_name": "Twitch",
+        "auth_url": "https://id.twitch.tv/oauth2/authorize",
+        "token_url": "https://id.twitch.tv/oauth2/token",
+        "client_id": "",
+        "client_secret": "",
+        "redirect_uri": "http://localhost:17563/callback",
+        "scopes": [
+            "user:read:chat"
+        ],
+        "pkce": true
+    },
+    "youtube": {
+        "display_name": "YouTube",
+        "auth_url": "https://accounts.google.com/o/oauth2/v2/auth",
+        "token_url": "https://oauth2.googleapis.com/token",
+        "client_id": "",
+        "client_secret": "",
+        "redirect_uri": "http://127.0.0.1:{port}/callback",
+        "scopes": [
+            "https://www.googleapis.com/auth/youtube.readonly"
+        ],
+        "pkce": true
+    }
+}
