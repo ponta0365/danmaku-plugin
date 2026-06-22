@@ -35,3 +35,4 @@ obs_state.txt
 # Distribution folders
 /danmaku-bridge-release/
 /dist/
+*.zip
